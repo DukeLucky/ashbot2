@@ -80,9 +80,12 @@ async def send_credits(chan, credits):
     time.sleep(2)
     secs2add += 2
     messages = []
-    async for m in bot.logs_from(chan, limit=2):
+    m1 = ''
+    async for m in bot.logs_from(chan, limit=3):
         messages.append(m)
-    m1 = messages[0].content
+        if '`' in m.content:
+            m1 = m.content
+            break
     tatcode = ''
     m1 = m1.split('`')
     for thing in m1:
