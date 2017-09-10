@@ -108,9 +108,9 @@ async def on_ready():
             await bot.send_message(chan, 't!credits')
         if secs%86400 == 0:
             await bot.send_message(chan, 't!daily')
-        await asyncio.sleep(150)
+        await asyncio.sleep(30)
         await bot.send_message(chan, ''.join(y))
-        secs += 150
+        secs += 30
 
 @bot.command(pass_context=True)
 async def ping(ctx):
