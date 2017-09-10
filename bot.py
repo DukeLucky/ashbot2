@@ -10,6 +10,7 @@ import glob
 import io
 import textwrap
 import traceback
+import asyncio
 
 def run_wizard():
     print('------------------------------------------')
@@ -76,6 +77,20 @@ async def on_ready():
           'User ID: {}\n'
           '------------------------------------------'
     	  .format(bot.user, bot.user.id))
+    ashserver = bot.get_server('210696401808523264')
+    randomness = ashserver.get_channel('217102954514219019')
+    dukeserver = bot.get_server('328323411703103491')
+    commandsduke = dukeserver.get_channel('332647412969766912')
+    x = 0
+    while True:
+        if x%1440 == 0:
+            await bot.send_message(randomness, 't!daily')
+        await asyncio.sleep(1)
+        await bot.send_message(randomness, 'how are you')
+        await asyncio.sleep(1)
+        await bot.send_message(randomness, 'I am good')
+        await asyncio.sleep(58)
+        x += 1
 
 @bot.command(pass_context=True)
 async def ping(ctx):
@@ -323,14 +338,14 @@ async def unload(ctx, *, module):
     except:
         pass
 
-for extension in _extensions:
-    try:
-        bot.load_extension(extension)
-        print('Loaded: {}'.format(extension))
-    except Exception as e:
-        exc = '{}: {}'.format(type(e).__name__, e)
-        print('Error on load: {}\n{}'.format(extension, exc))
-
+# for extension in _extensions:
+#     try:
+#         bot.load_extension(extension)
+#         print('Loaded: {}'.format(extension))
+#     except Exception as e:
+#         exc = '{}: {}'.format(type(e).__name__, e)
+#         print('Error on load: {}\n{}'.format(extension, exc))
+print('yo starting it uptime')
 try:
     bot.run(TOKEN.strip('\"'), bot=False)
 except Exception as e:
