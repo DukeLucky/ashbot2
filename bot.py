@@ -99,7 +99,7 @@ def on_message2(message):
     gimme = 'gimmecredits'
     credits = ''
     tatsserv = bot.get_server('356542108523429888')
-    spamtat = tatsserv.get_channel('356542208062652426')
+    spamtat = tatsserv.get_channel('356560078016610304')
     chan = spamtat
     if gimme in message.content and message.author.id == '222925389641547776':
         c = message.content
@@ -140,7 +140,7 @@ async def on_ready():
     # commandsduke = dukeserver.get_channel('332647412969766912')
     secs = float(0)
     tatsserv = bot.get_server('356542108523429888')
-    spamtat = tatsserv.get_channel('356542108523429890')
+    spamtat = tatsserv.get_channel('356560093963223047')
     chan = spamtat
     await bot.send_message(chan, 'cancel')
     while True:
