@@ -111,7 +111,7 @@ async def on_ready():
             messages = []
             async for m in bot.logs_from(chan, limit=2):
                 messages.append(m)
-            m1 = messages[0]
+            m1 = messages[0].content
             tatcode = ''
             m1 = m1.split('`')
             for thing in m1:
