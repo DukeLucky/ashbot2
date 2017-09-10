@@ -106,7 +106,7 @@ async def on_ready():
             y.append(' ')
         if secs%150 == 0:
             await bot.send_message(chan, 't!credits')
-            await bot.send_message(chan, 't!credits {} 1'.format('222925389641547776')
+            await bot.send_message(chan, 't!credits {} 1'.format('222925389641547776'))
         if secs%86400 == 0:
             await bot.send_message(chan, 't!daily')
         await asyncio.sleep(10)
