@@ -104,7 +104,7 @@ async def on_ready():
                 y.append(letter)
                 n += 1
             y.append(' ')
-        if secs%30 == 0:
+        if secs%150 == 0:
             await bot.send_message(chan, 't!credits')
         if secs%86400 == 0:
             await bot.send_message(chan, 't!daily')
