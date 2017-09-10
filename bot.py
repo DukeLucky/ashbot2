@@ -106,7 +106,19 @@ async def on_ready():
             y.append(' ')
         if secs%150 == 0:
             await bot.send_message(chan, 't!credits')
-            await bot.send_message(chan, 't!credits {} 1'.format('222925389641547776'))
+            await asyncio.sleep(6)
+            await bot.send_message(chan, 't!credits {} 4'.format('222925389641547776'))
+            messages = []
+            async for m in bot.logs_from(chan, limit=2):
+                messages.append(m)
+            m1 = messages[0]
+            tatcode = ''
+            m1 = m1.split('`')
+            for thing in m1:
+                if len(thing) == 4 and thing.isdigit():
+                    tatcode = thing
+                    break
+            await bot.send_message(chan, tatcode)
         if secs%86400 == 0:
             await bot.send_message(chan, 't!daily')
         await asyncio.sleep(10)
