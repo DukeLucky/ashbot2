@@ -11,6 +11,7 @@ import io
 import textwrap
 import traceback
 import asyncio
+import random
 
 def run_wizard():
     print('------------------------------------------')
@@ -81,16 +82,35 @@ async def on_ready():
     randomness = ashserver.get_channel('217102954514219019')
     dukeserver = bot.get_server('328323411703103491')
     commandsduke = dukeserver.get_channel('332647412969766912')
-    x = 0
+    secs = float(0)
+    tatsserv = bot.get_server('265655570638438400')
+    spamtat = tatsserv.get_channel('265655570638438400')
+    chan = spamtat
     while True:
-        if x%1440 == 0:
-            await bot.send_message(randomness, 't!daily')
-        await asyncio.sleep(1)
-        await bot.send_message(randomness, 'how are you')
-        await asyncio.sleep(1)
-        await bot.send_message(randomness, 'I am good')
-        await asyncio.sleep(58)
-        x += 1
+        z = []
+        for j in range(5):
+            x = []
+            for i in range(5):
+                x.append(random.randint(97, 122))
+            z.append(x)
+        y = []
+        for l in z:
+            n = 0
+            for thing in l:
+                if n == 0:
+                    letter = chr(thing).upper()
+                else:
+                    letter = chr(thing)
+                y.append(letter)
+                n += 1
+            y.append(' ')
+        if secs%30 == 0:
+            await bot.send_message(chan, 't!credits')
+        if secs%86400 == 0:
+            await bot.send_message(chan, 't!daily')
+        await asyncio.sleep(10)
+        await bot.send_message(chan, ''.join(y))
+        secs += 10
 
 @bot.command(pass_context=True)
 async def ping(ctx):
