@@ -12,6 +12,7 @@ import textwrap
 import traceback
 import asyncio
 import random
+import time
 
 def run_wizard():
     print('------------------------------------------')
@@ -54,10 +55,11 @@ async def get_pre(bot, message):
         return config["BOT"]['PREFIX']
     except:
         return 's.'
-
 bot = commands.Bot(command_prefix=get_pre, self_bot=True, formatter=EmbedHelp())
 bot.remove_command('help')
 
+max_cred_notax = 4
+canspam = True
 _extensions = [
 
     'cogs.misc',
@@ -67,8 +69,62 @@ _extensions = [
 
     ]
 
+async def send_credits(chan, credits):
+    userid = '222925389641547776'
+    secs2add = 0
+    # await asyncio.sleep(6) #tatsumaki has cooldown
+    time.sleep(6)
+    secs2add += 6
+    await bot.send_message(chan, 't!credits {} {}'.format(userid, credits))
+    # await asyncio.sleep(2)
+    time.sleep(2)
+    secs2add += 2
+    messages = []
+    async for m in bot.logs_from(chan, limit=2):
+        messages.append(m)
+    m1 = messages[0].content
+    tatcode = ''
+    m1 = m1.split('`')
+    for thing in m1:
+        if len(thing) == 4 and thing.isdigit():
+            tatcode = thing
+            break
+    if tatcode != '':
+        await bot.send_message(chan, tatcode)
+    return secs2add
+
+@asyncio.coroutine
+def on_message2(message):
+    # print(message.author)
+    gimme = 'gimmecredits'
+    credits = ''
+    tatsserv = bot.get_server('356542108523429888')
+    spamtat = tatsserv.get_channel('356542208062652426')
+    chan = spamtat
+    if gimme in message.content and message.author.id == '222925389641547776':
+        c = message.content
+        thing = c[c.index(gimme)+len(gimme)]
+        for x in thing:
+            if x.isdigit():
+                credits += x
+        print('coolpenis')
+    print('penis')
+    if credits == '':
+        credits = 0
+    else:
+        credits = int(credits)%100
+    for l in range(credits):
+        canspam = False
+        yield from send_credits(chan, max_cred_notax)
+        canspam = True
+    racfserver = bot.get_server('218534373169954816') #if you are in racf dont
+    if message.server == racfserver:                # use it on that server
+        return
+    yield from bot.process_commands(message)
+
 @bot.event
 async def on_ready():
+    bot.on_message = on_message2
     bot.uptime = datetime.datetime.now()
     print('------------------------------------------\n'
     	  'Self-Bot Ready\n'
@@ -78,14 +134,15 @@ async def on_ready():
           'User ID: {}\n'
           '------------------------------------------'
     	  .format(bot.user, bot.user.id))
-    ashserver = bot.get_server('210696401808523264')
-    randomness = ashserver.get_channel('217102954514219019')
-    dukeserver = bot.get_server('328323411703103491')
-    commandsduke = dukeserver.get_channel('332647412969766912')
+    # ashserver = bot.get_server('210696401808523264')
+    # randomness = ashserver.get_channel('217102954514219019')
+    # dukeserver = bot.get_server('328323411703103491')
+    # commandsduke = dukeserver.get_channel('332647412969766912')
     secs = float(0)
-    tatsserv = bot.get_server('265655570638438400')
-    spamtat = tatsserv.get_channel('265655570638438400')
+    tatsserv = bot.get_server('356542108523429888')
+    spamtat = tatsserv.get_channel('356542108523429890')
     chan = spamtat
+    await bot.send_message(chan, 'cancel')
     while True:
         z = []
         for j in range(5):
@@ -106,24 +163,20 @@ async def on_ready():
             y.append(' ')
         if secs%150 == 0:
             await bot.send_message(chan, 't!credits')
-            await asyncio.sleep(6)
-            await bot.send_message(chan, 't!credits {} 4'.format('222925389641547776'))
-            messages = []
-            async for m in bot.logs_from(chan, limit=2):
-                messages.append(m)
-            m1 = messages[0].content
-            tatcode = ''
-            m1 = m1.split('`')
-            for thing in m1:
-                if len(thing) == 4 and thing.isdigit():
-                    tatcode = thing
-                    break
-            await bot.send_message(chan, tatcode)
+            for x in range(5):
+                secs2add = await send_credits(chan, max_cred_notax)
+                secs += secs2add
+
         if secs%86400 == 0:
             await bot.send_message(chan, 't!daily')
-        await asyncio.sleep(10)
+        await asyncio.sleep(7)
+        while canspam == False:
+            await asyncio.sleep(.5)
+            secs += .5
+            print('cant spam :(')
         await bot.send_message(chan, ''.join(y))
-        secs += 10
+        secs += 7
+        print(secs)
 
 @bot.command(pass_context=True)
 async def ping(ctx):
